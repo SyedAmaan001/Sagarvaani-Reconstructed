@@ -1,0 +1,77 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.token
+*.pfx
+*.p12
+
+# Legacy repository — contains real API keys, Twilio credentials, and phone numbers.
+# Keep locally as reference ONLY. Never commit to the reconstructed repo.
+legacy/
+
+# Empty placeholder directories (committed via .gitkeep if needed)
+/data/
+/tests/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing, Databases & Artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+artifacts/
+*.db
+*.sqlite
+*.sqlite3
+scratch/
+
+# uv / pip
+.python-version
+
+# Node / Frontend (placeholder — not yet scaffolded)
+node_modules/
+.next/
+out/
+.npm
+
+# ML model weights
+*.bin
+*.onnx
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
