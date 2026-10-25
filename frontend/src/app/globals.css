@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  /* Approved UX Specification Core Palette */
+  --color-warm-ivory: #EDE4D2;
+  --color-warm-ivory-light: #F7F3EB;
+  --color-warm-ivory-dark: #DDD2BC;
+  
+  --color-charcoal-blue: #353A4C;
+  --color-charcoal-blue-muted: #535970;
+  
+  --color-french-blue: #394988;
+  --color-azure-blue: #367ADF;
+  --color-fresh-sky: #4FACE5;
+  --color-icy-blue: #AED5F5;
+  --color-icy-blue-light: #E4F1FB;
+  
+  --color-indigo-deep: #1B2B5E;
+  
+  /* Semantic Tokens */
+  --bg-page: var(--color-warm-ivory);
+  --text-main: var(--color-charcoal-blue);
+  --text-muted: var(--color-charcoal-blue-muted);
+  --accent-primary: var(--color-azure-blue);
+  --accent-secondary: var(--color-french-blue);
+  
+  /* Focus Outline */
+  --focus-ring: #367ADF;
+}
+
+@theme inline {
+  --color-warm-ivory: var(--color-warm-ivory);
+  --color-warm-ivory-light: var(--color-warm-ivory-light);
+  --color-warm-ivory-dark: var(--color-warm-ivory-dark);
+  
+  --color-charcoal-blue: var(--color-charcoal-blue);
+  --color-charcoal-blue-muted: var(--color-charcoal-blue-muted);
+  
+  --color-french-blue: var(--color-french-blue);
+  --color-azure-blue: var(--color-azure-blue);
+  --color-fresh-sky: var(--color-fresh-sky);
+  --color-icy-blue: var(--color-icy-blue);
+  --color-icy-blue-light: var(--color-icy-blue-light);
+  
+  --color-indigo-deep: var(--color-indigo-deep);
+}
+
+body {
+  background-color: var(--color-warm-ivory);
+  color: var(--color-charcoal-blue);
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Subtle bobbing animation for the ukiyo-e boat */
+@keyframes ocean-bob {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1.2deg);
+  }
+}
+
+.animate-ocean-bob {
+  animation: ocean-bob 4s ease-in-out infinite;
+}
+
+/* Subtle wave drift animation */
+@keyframes wave-drift {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-12px);
+  }
+}
+
+.animate-wave-drift {
+  animation: wave-drift 8s ease-in-out infinite;
+}

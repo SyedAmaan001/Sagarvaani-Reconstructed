@@ -47,5 +47,25 @@ class Settings(BaseModel):
     )
     max_artifact_bytes: int = 5 * 1024 * 1024  # 5 MB maximum payload cap
 
+    # Supabase Authentication & Project Settings
+    supabase_url: str = Field(
+        default_factory=lambda: os.getenv("SUPABASE_URL", "https://dwobutqvprlqwxmbrjxn.supabase.co")
+    )
+    supabase_publishable_key: str = Field(
+        default_factory=lambda: os.getenv("SUPABASE_PUBLISHABLE_KEY", "sb_publishable_a7MtdcAuttxaoxXs260sFA_3r4lDOOl")
+    )
+    supabase_secret_key: str = Field(
+        default_factory=lambda: os.getenv("SUPABASE_SECRET_KEY", "")
+    )
+    supabase_jwks_url: str = Field(
+        default_factory=lambda: os.getenv(
+            "SUPABASE_JWKS_URL",
+            "https://dwobutqvprlqwxmbrjxn.supabase.co/auth/v1/.well-known/jwks.json"
+        )
+    )
+    require_query_auth: bool = Field(
+        default_factory=lambda: os.getenv("REQUIRE_QUERY_AUTH", "false").lower() in ("true", "1", "yes")
+    )
+
 
 settings = Settings()

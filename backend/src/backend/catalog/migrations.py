@@ -170,6 +170,11 @@ MIGRATIONS: List[str] = [
     );
 
     CREATE INDEX IF NOT EXISTS idx_selector_run ON selector_traces (run_id);
+    """,
+    # Migration 5: User identification and query attribution
+    """
+    ALTER TABLE runs ADD COLUMN user_id TEXT;
+    CREATE INDEX IF NOT EXISTS idx_runs_user ON runs (user_id);
     """
 ]
 

@@ -8,11 +8,12 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 import uuid
 from typing import Any, Dict, List, Optional
-from fastapi import FastAPI, Depends, status
+from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from backend.core.config import settings
+from backend.core.auth import AuthenticatedUser, get_current_user, get_current_user_optional
 from backend.engine.fsm import (
     DeadlineExceededError,
     FSMState,
@@ -91,6 +92,20 @@ async def health_check() -> HealthResponse:
     )
 
 
+@app.get("/api/auth/me", tags=["Authentication"], summary="Get authenticated operator profile")
+async def get_current_operator(
+    user: AuthenticatedUser = Depends(get_current_user),
+) -> Dict[str, Any]:
+    """Protected endpoint: verifies the Supabase access token and returns operator identity."""
+    return {
+        "authenticated": True,
+        "user_id": user.user_id,
+        "email": user.email,
+        "role": user.role,
+        "metadata": user.metadata,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Gateway async wrappers (production)
 # These are passed into the harness registry and executed as async callables.
@@ -167,15 +182,23 @@ def get_gateway_registry() -> Dict[str, GatewayCallable]:
 async def canonical_orca_query(
     req: CanonicalQueryRequest,
     gateway_registry: Dict[str, GatewayCallable] = Depends(get_gateway_registry),
+    user: Optional[AuthenticatedUser] = Depends(get_current_user_optional),
 ) -> CanonicalQueryResponse:
     """
     Canonical ORCA Query Endpoint (Phase 4 — FSM + DAG harness).
 
-    Request routes through a guarded deterministic FSM.  Independent marine and
+    Request routes through a guarded deterministic FSM. Independent marine and
     weather retrieval tasks execute concurrently inside the execution harness.
     Missing context, gateway failures, timeouts and invalid DAGs all produce
     typed, auditable outcomes — never fabricated success.
     """
+    if settings.require_query_auth and not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication required to execute query.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
     now = datetime.now(timezone.utc)
     run_id = f"run_{uuid.uuid4().hex[:12]}"
     trace_id = f"tr_{uuid.uuid4().hex[:16]}"
@@ -438,6 +461,7 @@ async def canonical_orca_query(
         artifacts_meta=artifacts_meta,
         now=now,
         completed_at=completed_at,
+        user_id=user.user_id if user else None,
     )
 
     return response
@@ -703,6 +727,7 @@ def _persist_run(
     artifacts_meta: List[Dict[str, Any]],
     now: datetime,
     completed_at: datetime,
+    user_id: Optional[str] = None,
 ) -> None:
     """Persists run metadata, evidence, tasks, recovery trace, and policy checks via CatalogService."""
     try:
@@ -714,6 +739,7 @@ def _persist_run(
             completed_at=completed_at,
             tasks=task_results,
             artifacts_meta=artifacts_meta,
+            user_id=user_id,
         )
     except Exception:
         pass  # Non-blocking

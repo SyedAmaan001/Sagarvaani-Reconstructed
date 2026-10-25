@@ -1,0 +1,103 @@
+- `# Sagarvani Frontend — Antigravity Instructions` 
+
+- `## Authority and priorities` 
+
+```
+Follow:
+```
+
+`1. The user's latest explicit instruction.` 
+
+`2. The existing Sagarvani repository and working architecture.` 
+
+`3. `docs/FRONTEND_IMPLEMENTATION_HANDOFF.md`.` 
+
+`4. `docs/ANTIGRAVITY_PHASE_PROMPTS.md`.` 
+
+`5. The approved UX/animation specification and supplied design archive.` 
+
+```
+The design handoff supplements existing backend instructions; it does not
+replace them.
+```
+
+# `## Workflow` 
+
+- `Work on exactly one explicitly approved phase at a time.` 
+
+- `Inspect before editing. Preserve working code, routes, dependencies, package manager and project conventions.` 
+
+- `Do not scaffold a replacement app or build all pages in one pass.` 
+
+- `At the end of each phase, run relevant build/test/lint checks, report actual results, and stop for approval.` 
+
+- `Never claim tests passed unless they were actually run.` 
+
+- `Do not overwrite an existing `AGENTS.md`; merge these frontend-specific rules into the appropriate instructions file.` 
+
+# `## Backend integrity` 
+
+- `Read the actual FastAPI routes, Pydantic models, configuration and OpenAPI schema before integrating APIs.` 
+
+- `Never invent routes, request properties, response fields, progress events, data sources or authentication behaviour.` 
+
+- `Backend evidence validation, recovery and release policy remain authoritative. The frontend only renders results.` 
+
+- `Never turn withheld, blocked, conflicting, failed or `NOT_EVALUABLE` outcomes into a positive safety recommendation.` 
+
+- `Never label historical data or test fixtures as live conditions.` 
+
+- `Do not claim Laya inference is active unless verified runtime evidence proves it.` 
+
+- `Do not change backend implementation, database schemas, or policy logic without explicit approval.` 
+
+# `## Design integrity` 
+
+- `Use supplied artwork only. Do not generate, retrieve or substitute illustrations.` 
+
+- `Preserve warm ivory, indigo, lapis, azure and icy-blue harmony; do not make every page a dark control room.` 
+
+- `Keep UI copy as real HTML text.` 
+
+- `Decorative maps and ship art are illustrative, not live GIS data or vessel tracking.` 
+
+- `Use the existing animation stack where possible. Do not add overlapping animation frameworks without a clear, justified need.` 
+
+- `Keep the locked 30-component plan. Do not create Component 31 or mistake the maritime.sh reference inventory for Sagarvani's component list.` 
+
+# `## Honest interaction` 
+
+- `No fake progress percentages, fabricated loading stages, false upload completion or simulated backend success.` 
+
+- `If backend stage events do not exist, use a single truthful loading message.` 
+
+- `If authentication, voice, upload, saved insights, live GIS or alerts are` 
+
+```
+unsupported, mark them Coming Soon or omit them.
+```
+
+- `Never expose API keys or secrets in browser code.` 
+
+- `Do not force login before a basic question unless a verified security requirement demands it.` 
+
+# `## Accessibility` 
+
+```
+Respect reduced motion. Keep skip controls keyboard-accessible, display focus
+clearly, provide text alternatives to maps, announce meaningful state changes,
+use text plus icon for status, and test keyboard/mobile layouts.
+```
+
+# `## Required phase report` 
+
+```
+List changed files, commands run, actual test/build results, unresolved issues,
+and features still unavailable. Report failures honestly.
+```
+
+```
+**Default rule:** if the visual request conflicts with backend truthfulness,
+preserve the visual intention but never fake the underlying capability.
+```
+

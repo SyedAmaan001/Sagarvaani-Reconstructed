@@ -53,6 +53,7 @@ class CatalogService:
         completed_at: datetime,
         tasks: Optional[List[TaskResult]] = None,
         artifacts_meta: Optional[List[Dict[str, Any]]] = None,
+        user_id: Optional[str] = None,
     ) -> None:
         """Persists a complete query run, its tasks, evidence items, and artifact metadata."""
         ctx = response.extracted_context
@@ -70,8 +71,8 @@ class CatalogService:
                     run_id, trace_id, query, status, data_mode,
                     stakeholder_role, presentation_mode,
                     requested_lat, requested_lon, location_name,
-                    started_at, completed_at, policy_verdict, summary_text
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    started_at, completed_at, policy_verdict, summary_text, user_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(run_id) DO UPDATE SET
                     trace_id=excluded.trace_id,
                     query=excluded.query,
@@ -85,7 +86,8 @@ class CatalogService:
                     started_at=excluded.started_at,
                     completed_at=excluded.completed_at,
                     policy_verdict=excluded.policy_verdict,
-                    summary_text=excluded.summary_text;
+                    summary_text=excluded.summary_text,
+                    user_id=excluded.user_id;
                 """,
                 (
                     response.run_id,
@@ -102,6 +104,7 @@ class CatalogService:
                     completed_at.isoformat(),
                     response.policy_audit.overall_verdict.value,
                     response.summary_text,
+                    user_id,
                 ),
             )
 
